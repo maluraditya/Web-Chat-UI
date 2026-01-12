@@ -81,7 +81,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: `Failed to save message: ${msgError.message}` }, { status: 500 });
         }
 
-        return NextResponse.json({ success: true });
+        return NextResponse.json({ success: true, status: conversation.status });
 
     } catch (error) {
         console.error("Webhook error:", error);
