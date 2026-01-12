@@ -178,8 +178,8 @@ export default function ChatPage() {
                     <button
                         onClick={toggleStatus}
                         className={`text-xs px-3 py-1.5 rounded-full font-medium transition-colors ${conversation.status === 'bot'
-                                ? 'bg-[#00a884] text-[#111b21] hover:bg-[#02906f]'
-                                : 'bg-[#202c33] border border-[#d1d7db] text-[#d1d7db]'
+                            ? 'bg-[#00a884] text-[#111b21] hover:bg-[#02906f]'
+                            : 'bg-[#202c33] border border-[#d1d7db] text-[#d1d7db]'
                             }`}
                     >
                         {conversation.status === 'bot' ? 'Take Over' : 'Return to Bot'}
@@ -218,8 +218,8 @@ export default function ChatPage() {
                         >
                             <div
                                 className={`relative max-w-[85%] sm:max-w-[65%] px-3 py-1.5 rounded-lg shadow-sm text-sm ${isOutgoing
-                                        ? 'bg-[#005c4b] text-[#e9edef] rounded-tr-none'
-                                        : 'bg-[#202c33] text-[#e9edef] rounded-tl-none'
+                                    ? 'bg-[#005c4b] text-[#e9edef] rounded-tr-none'
+                                    : 'bg-[#202c33] text-[#e9edef] rounded-tl-none'
                                     }`}
                             >
                                 {/* Sender Label for Human/Bot context */}
@@ -258,41 +258,55 @@ export default function ChatPage() {
             )}
 
             {/* Input Area */}
-            <div className="bg-[#202c33] px-2 py-2 flex items-end gap-2 z-10">
-                <button className="p-3 text-[#8696a0] hover:text-[#d1d7db] hidden sm:block">
-                    <Smile size={24} />
-                </button>
-                <button className="p-3 text-[#8696a0] hover:text-[#d1d7db]">
-                    <Paperclip size={24} />
-                </button>
+            {conversation.status === 'bot' ? (
+                <div className="bg-[#202c33] px-4 py-3 flex items-center justify-center gap-4 z-10 border-t border-[#2a3942]">
+                    <p className="text-[#8696a0] text-sm">
+                        AI Bot is active.
+                    </p>
+                    <button
+                        onClick={toggleStatus}
+                        className="bg-[#00a884] text-[#111b21] px-6 py-2 rounded-full font-medium hover:bg-[#02906f] transition-colors shadow-lg"
+                    >
+                        Take Over to Reply
+                    </button>
+                </div>
+            ) : (
+                <div className="bg-[#202c33] px-2 py-2 flex items-end gap-2 z-10">
+                    <button className="p-3 text-[#8696a0] hover:text-[#d1d7db] hidden sm:block">
+                        <Smile size={24} />
+                    </button>
+                    <button className="p-3 text-[#8696a0] hover:text-[#d1d7db]">
+                        <Paperclip size={24} />
+                    </button>
 
-                <form onSubmit={sendMessage} className="flex-1 flex gap-2 items-end">
-                    <div className="flex-1 bg-[#2a3942] rounded-lg flex items-center min-h-[42px] px-4 py-1.5 my-1">
-                        <input
-                            type="text"
-                            value={newMessage}
-                            onChange={(e) => setNewMessage(e.target.value)}
-                            placeholder="Type a message"
-                            className="w-full bg-transparent text-[#d1d7db] placeholder-[#8696a0] focus:outline-none text-base"
-                            disabled={sending}
-                        />
-                    </div>
+                    <form onSubmit={sendMessage} className="flex-1 flex gap-2 items-end">
+                        <div className="flex-1 bg-[#2a3942] rounded-lg flex items-center min-h-[42px] px-4 py-1.5 my-1">
+                            <input
+                                type="text"
+                                value={newMessage}
+                                onChange={(e) => setNewMessage(e.target.value)}
+                                placeholder="Type a message"
+                                className="w-full bg-transparent text-[#d1d7db] placeholder-[#8696a0] focus:outline-none text-base"
+                                disabled={sending}
+                            />
+                        </div>
 
-                    {newMessage.trim() ? (
-                        <button
-                            type="submit"
-                            disabled={sending}
-                            className="p-3 bg-[#00a884] text-[#111b21] rounded-full hover:bg-[#02906f] transition-all mb-1 shadow-md"
-                        >
-                            <Send size={20} className="ml-0.5" />
-                        </button>
-                    ) : (
-                        <button type="button" className="p-3 text-[#8696a0] hover:text-[#d1d7db] mb-1">
-                            <Mic size={24} />
-                        </button>
-                    )}
-                </form>
-            </div>
+                        {newMessage.trim() ? (
+                            <button
+                                type="submit"
+                                disabled={sending}
+                                className="p-3 bg-[#00a884] text-[#111b21] rounded-full hover:bg-[#02906f] transition-all mb-1 shadow-md"
+                            >
+                                <Send size={20} className="ml-0.5" />
+                            </button>
+                        ) : (
+                            <button type="button" className="p-3 text-[#8696a0] hover:text-[#d1d7db] mb-1">
+                                <Mic size={24} />
+                            </button>
+                        )}
+                    </form>
+                </div>
+            )}
         </div>
     );
 }
