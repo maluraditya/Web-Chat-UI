@@ -250,12 +250,8 @@ export default function ChatPage() {
                 <div ref={messagesEndRef} />
             </div>
 
-            {/* Warning if Human not active */}
-            {conversation.status === 'bot' && (
-                <div className="bg-[#202c33] px-4 py-2 text-center text-xs text-[#ffd279] border-t border-[#2a3942]">
-                    This chat is managed by the AI Bot. Click "Take Over" to reply manually.
-                </div>
-            )}
+            {/* Warning if Human not active - MOVED TO INPUT AREA */}
+            {/* {conversation.status === 'bot' && ...} */}
 
             {/* Input Area */}
             {conversation.status === 'bot' ? (
