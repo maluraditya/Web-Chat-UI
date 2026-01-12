@@ -10,6 +10,10 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing phone or message' }, { status: 400 });
         }
 
+        if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
+            return NextResponse.json({ error: 'FATAL: SUPABASE_SERVICE_ROLE_KEY is missing in env vars' }, { status: 500 });
+        }
+
         // Initialize Supabase client (using service role key if needed for RLS bypass, 
         // but here assuming anon key with proper policies or server-side auth)
         // For webhooks, we usually need the SERVICE_ROLE_KEY to bypass RLS if the webhook isn't authenticated as a user.
