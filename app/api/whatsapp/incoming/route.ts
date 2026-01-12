@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
         if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "Row not found"
             console.error("Error fetching conversation:", fetchError);
-            return NextResponse.json({ error: `Database error: ${fetchError.message}` }, { status: 500 });
+            return NextResponse.json({ error: `Database error: ${fetchError.message}`, version: 'debug-v1' }, { status: 500 });
         }
 
         if (!conversation) {
@@ -81,6 +81,6 @@ export async function POST(req: Request) {
 
     } catch (error) {
         console.error("Webhook error:", error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ error: 'Internal Server Error', version: 'debug-v1' }, { status: 500 });
     }
 }
