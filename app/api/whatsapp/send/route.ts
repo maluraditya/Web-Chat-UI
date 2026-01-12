@@ -18,7 +18,7 @@ export async function POST(req: Request) {
         // 1. Fetch conversation to get phone number
         const { data: conversation, error: fetchError } = await supabaseAdmin
             .from('conversations')
-            .select('phone')
+            .select('phone, status')
             .eq('id', conversation_id)
             .single();
 
@@ -51,7 +51,8 @@ export async function POST(req: Request) {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         phone: conversation.phone,
-                        message: message
+                        message: message,
+                        status: conversation.status
                     })
                 });
             } catch (n8nError) {
