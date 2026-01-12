@@ -31,7 +31,7 @@ export async function POST(req: Request) {
 
         if (fetchError && fetchError.code !== 'PGRST116') { // PGRST116 is "Row not found"
             console.error("Error fetching conversation:", fetchError);
-            return NextResponse.json({ error: 'Database error' }, { status: 500 });
+            return NextResponse.json({ error: `Database error: ${fetchError.message}` }, { status: 500 });
         }
 
         if (!conversation) {
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
 
             if (createError) {
                 console.error("Error creating conversation:", createError);
-                return NextResponse.json({ error: 'Failed to create conversation' }, { status: 500 });
+                return NextResponse.json({ error: `Failed to create conversation: ${createError.message}` }, { status: 500 });
             }
             conversation = newConv;
         } else {
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
         if (msgError) {
             console.error("Error inserting message:", msgError);
-            return NextResponse.json({ error: 'Failed to save message' }, { status: 500 });
+            return NextResponse.json({ error: `Failed to save message: ${msgError.message}` }, { status: 500 });
         }
 
         return NextResponse.json({ success: true });
