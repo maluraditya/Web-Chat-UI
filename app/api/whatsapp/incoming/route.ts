@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         // 1. Find or create conversation
         let { data: conversation, error: fetchError } = await supabaseAdmin
             .from('conversations')
-            .select('id, status')
+            .select('id, status, unread_count')
             .eq('phone', phone)
             .single();
 
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
         if (!conversation) {
             const { data: newConv, error: createError } = await supabaseAdmin
                 .from('conversations')
-                .insert({ phone, name, status: 'bot', last_message: message })
+                .insert({ phone, name, status: 'bot', last_message: message, unread_count: 1 })
                 .select()
                 .single();
 
@@ -54,7 +54,11 @@ export async function POST(req: Request) {
             // Update last message
             await supabaseAdmin
                 .from('conversations')
-                .update({ last_message: message, updated_at: new Date().toISOString() })
+                .update({
+                    last_message: message,
+                    updated_at: new Date().toISOString(),
+                    unread_count: conversation.unread_count + 1
+                })
                 .eq('id', conversation.id);
         }
 
